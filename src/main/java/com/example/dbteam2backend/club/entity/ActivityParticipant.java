@@ -1,5 +1,6 @@
 package com.example.dbteam2backend.club.entity;
 
+import com.example.dbteam2backend.employee.entity.Employee;
 import jakarta.persistence.*;
 import lombok.*;
 
