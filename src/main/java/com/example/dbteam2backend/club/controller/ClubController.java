@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -20,12 +21,12 @@ public class ClubController {
     private final ClubService clubService;
 
     @GetMapping
-    public List<ClubListResponse> listClubs(){
-        return clubService.getAllClubs();
+    public ResponseEntity<List<ClubListResponse>> listClubs(){
+        return ResponseEntity.ok(clubService.getAllClubs());
     }
 
     @GetMapping("/{clubId}")
-    public ClubDetailResponse getDetail(@PathVariable Integer clubId){
-        return clubService.getClubDetail(clubId);
+    public ResponseEntity<ClubDetailResponse> getDetail(@PathVariable Integer clubId){
+        return ResponseEntity.ok(clubService.getClubDetail(clubId));
     }
 }
