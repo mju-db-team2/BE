@@ -1,14 +1,22 @@
 package com.example.dbteam2backend.club.service;
 
+import com.example.dbteam2backend.club.dto.ClubCreateRequest;
+import com.example.dbteam2backend.club.dto.ClubCreateResponse;
 import com.example.dbteam2backend.club.dto.ClubDetailResponse;
 import com.example.dbteam2backend.club.dto.ClubListResponse;
 import com.example.dbteam2backend.club.entity.Club;
+import com.example.dbteam2backend.club.entity.ClubRole;
 import com.example.dbteam2backend.club.entity.ClubRoleType;
+import com.example.dbteam2backend.club.entity.ClubStatus;
 import com.example.dbteam2backend.club.repository.ClubRepository;
+import com.example.dbteam2backend.club.repository.ClubRoleRepository;
+import com.example.dbteam2backend.employee.entity.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.dbteam2backend.employee.repository.EmployeeRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,6 +25,8 @@ import java.util.List;
 public class ClubService {
 
     private final ClubRepository clubRepository;
+    private final ClubRoleRepository clubRoleRepository;
+    private final EmployeeRepository employeeRepository;
 
     public List<ClubListResponse> getAllClubs() {
         return clubRepository.findAll().stream()
@@ -84,5 +94,36 @@ public class ClubService {
                 activities
         );
     }
-}
 
+    @Transactional
+    public ClubCreateResponse createClub(ClubCreateRequest request) {
+        Club club = Club.builder()
+                .clubName(request.clubName())
+                .clubStatus(ClubStatus.ACTIVE)
+                .clubNum(1)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        Club savedClub = clubRepository.save(club);
+
+        //리더 조회
+        Employee leader = employeeRepository.findById(request.leaderEmpNo())
+                .orElseThrow(()->new RuntimeException("존재하지 않는 직원입니다."));
+
+        //leader 역할 등록
+        ClubRole leaderRole = ClubRole.builder()
+                .club(savedClub)
+                .employee(leader)
+                .role(ClubRoleType.LEADER)
+                .build();
+        clubRoleRepository.save(leaderRole);
+
+        return new ClubCreateResponse(
+                savedClub.getClubId(),
+                savedClub.getClubName(),
+                leader.getEmployeeName(),
+                1,
+                savedClub.getClubStatus()
+        );
+    }
+}
