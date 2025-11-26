@@ -61,6 +61,7 @@ public class EmployeeService {
 
     private EmployeeDetailResponse.SkillInfo toSkillInfo(EmployeeSkill es) {
         return EmployeeDetailResponse.SkillInfo.builder()
+                .skillId(es.getSkill().getSkillId())
                 .skillName(es.getSkill().getSkillName())
                 .profLevel(es.getProfLevel())
                 .expYears(es.getExpYears())
