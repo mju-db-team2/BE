@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 
 @Entity
-@Table(name = "ACTIVITY_PARTICIPNAT")
+@Table(name = "ACTIVITY_PARTICIPANT")
 @Getter
 @Setter
 @NoArgsConstructor
