@@ -26,11 +26,11 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProjectStatus(projectId));
     }
     @PostMapping
-    public ResponseEntity<Long> createProject(@RequestBody com.example.dbteam2backend.project.dto.ProjectRequestDto requestDto) {
+    public ResponseEntity<ProjectResponseDto> createProject(@RequestBody com.example.dbteam2backend.project.dto.ProjectRequestDto requestDto) {
         return ResponseEntity.ok(projectService.createProject(requestDto));
     }
     @PostMapping("/assignments")
-    public ResponseEntity<Long> assignDeveloper(@RequestBody com.example.dbteam2backend.project.dto.AssignmentRequestDto requestDto) {
+    public ResponseEntity<com.example.dbteam2backend.project.dto.AssignmentDto> assignDeveloper(@RequestBody com.example.dbteam2backend.project.dto.AssignmentRequestDto requestDto) {
         return ResponseEntity.ok(projectService.assignDeveloper(requestDto));
     }
     

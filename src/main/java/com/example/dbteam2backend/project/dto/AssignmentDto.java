@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 public class AssignmentDto {
+    private Long assignmentId;
+    private Long projectId;
     private Long developerId;
     private Long roleId;
     private LocalDate startDate;
@@ -17,6 +19,8 @@ public class AssignmentDto {
     private BigDecimal allocation;
 
     public AssignmentDto(Assignment assignment) {
+        this.assignmentId = assignment.getAssignmentId();
+        this.projectId = assignment.getProject().getProjectId();
         this.developerId = assignment.getDeveloperId();
         this.roleId = assignment.getRoleId();
         this.startDate = assignment.getStartDate();

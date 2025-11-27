@@ -39,19 +39,19 @@ public class ProjectService {
         return new ProjectStatusResponseDto(project, assignments);
     }
     @Transactional
-    public Long createProject(com.example.dbteam2backend.project.dto.ProjectRequestDto requestDto) {
+    public ProjectResponseDto createProject(com.example.dbteam2backend.project.dto.ProjectRequestDto requestDto) {
         Project project = requestDto.toEntity();
         projectRepository.save(project);
-        return project.getProjectId();
+        return new ProjectResponseDto(project);
     }
     @Transactional
-    public Long assignDeveloper(com.example.dbteam2backend.project.dto.AssignmentRequestDto requestDto) {
+    public AssignmentDto assignDeveloper(com.example.dbteam2backend.project.dto.AssignmentRequestDto requestDto) {
         Project project = projectRepository.findById(requestDto.getProjectId())
                 .orElseThrow(() -> new IllegalArgumentException("Project not found with id: " + requestDto.getProjectId()));
 
         com.example.dbteam2backend.project.entity.Assignment assignment = requestDto.toEntity(project);
         assignmentRepository.save(assignment);
-        return assignment.getAssignmentId();
+        return new AssignmentDto(assignment);
     }
     
     public com.example.dbteam2backend.project.dto.ProjectStatisticsDto getProjectStatistics(Long projectId) {
