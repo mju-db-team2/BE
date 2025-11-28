@@ -20,4 +20,23 @@ public class EmployeeController {
         return employeeService.filterEmployeesBySkills(request);
     }
 
+    @PostMapping("/departments")
+    public com.example.dbteam2backend.employee.entity.Department createDepartment(@RequestBody com.example.dbteam2backend.employee.dto.DepartmentRequestDto requestDto) {
+        return employeeService.createDepartment(requestDto);
+    }
+
+    @PostMapping("/positions")
+    public com.example.dbteam2backend.employee.entity.Position createPosition(@RequestBody com.example.dbteam2backend.employee.dto.PositionRequestDto requestDto) {
+        return employeeService.createPosition(requestDto);
+    }
+
+    @PostMapping("/status-codes")
+    public com.example.dbteam2backend.employee.entity.StatusCode createStatusCode(@RequestBody com.example.dbteam2backend.employee.dto.StatusCodeRequestDto requestDto) {
+        return employeeService.createStatusCode(requestDto);
+    }
+
+    @PostMapping
+    public com.example.dbteam2backend.employee.entity.Employee createEmployee(@RequestBody com.example.dbteam2backend.employee.dto.EmployeeRequestDto requestDto) {
+        return employeeService.createEmployee(requestDto);
+    }
 }

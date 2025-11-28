@@ -34,6 +34,22 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.assignDeveloper(requestDto));
     }
     
+    @PostMapping("/clients")
+    public ResponseEntity<com.example.dbteam2backend.project.entity.Client> createClient(@RequestBody com.example.dbteam2backend.project.dto.ClientRequestDto requestDto) {
+        com.example.dbteam2backend.project.entity.Client client = com.example.dbteam2backend.project.entity.Client.builder()
+                .clientName(requestDto.getClientName())
+                .build();
+        return ResponseEntity.ok(projectService.createClient(client));
+    }
+
+    @PostMapping("/roles")
+    public ResponseEntity<com.example.dbteam2backend.project.entity.Role> createRole(@RequestBody com.example.dbteam2backend.project.dto.RoleRequestDto requestDto) {
+        com.example.dbteam2backend.project.entity.Role role = com.example.dbteam2backend.project.entity.Role.builder()
+                .roleName(requestDto.getRoleName())
+                .build();
+        return ResponseEntity.ok(projectService.createRole(role));
+    }
+
     @GetMapping("/{projectId}/statistics")
     public ResponseEntity<com.example.dbteam2backend.project.dto.ProjectStatisticsDto> getProjectStatistics(@PathVariable Long projectId) {
         return ResponseEntity.ok(projectService.getProjectStatistics(projectId));

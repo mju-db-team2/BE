@@ -24,8 +24,12 @@ public class Project {
     @Column(name = "PROJECT_ID")    // 컬럼명 그대로
     private Long projectId;         // 자바에서 쓸 필드명 (CamelCase)
 
-    @Column(name = "CLIENT_ID")     // CLIENT_ID INT
+    @Column(name = "CLIENT_ID")
     private Long clientId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CLIENT_ID", insertable = false, updatable = false)
+    private Client client;
 
     @Column(name = "PROJECT_CODE", length = 30) // VARCHAR(30)
     private String projectCode;

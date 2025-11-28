@@ -31,6 +31,10 @@ public class Assignment {
     @Column(name = "ROLE_ID")
     private Long roleId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ROLE_ID", insertable = false, updatable = false)
+    private Role role;
+
     @Column(name = "START_DATE")
     private LocalDate startDate;
 
@@ -45,5 +49,9 @@ public class Assignment {
     private LocalDateTime createdAt;
 
     @Column(name = "DEVELOPER_ID")
-    private Long developerId;
+    private Integer developerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEVELOPER_ID", insertable = false, updatable = false)
+    private com.example.dbteam2backend.employee.entity.Employee developer;
 }

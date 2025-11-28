@@ -21,6 +21,8 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final AssignmentRepository assignmentRepository;
+    private final com.example.dbteam2backend.project.repository.ClientRepository clientRepository;
+    private final com.example.dbteam2backend.project.repository.RoleRepository roleRepository;
 
     public List<ProjectResponseDto> getAllProjects() {
         return projectRepository.findAll().stream()
@@ -119,6 +121,14 @@ public class ProjectService {
                 (long) allProjects.size(),
                 totalDevelopers
         );
+    }
+    @Transactional
+    public com.example.dbteam2backend.project.entity.Client createClient(com.example.dbteam2backend.project.entity.Client client) {
+        return clientRepository.save(client);
+    }
+    @Transactional
+    public com.example.dbteam2backend.project.entity.Role createRole(com.example.dbteam2backend.project.entity.Role role) {
+        return roleRepository.save(role);
     }
 }
 
