@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AssignmentRequestDto {
     private Long projectId;
-    private Long developerId;
+    private Integer developerId;
     private Long roleId;
     private LocalDate startDate;
     private LocalDate endDate;

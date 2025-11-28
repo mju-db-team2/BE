@@ -16,17 +16,30 @@ import java.util.List;
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "EMP_NO")
     private Integer empNo;
 
     @Column(name = "STATUS_ID")
     private Integer statusId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STATUS_ID", insertable = false, updatable = false)
+    private StatusCode statusCode;
+
     @Column(name = "POSITION_ID")
     private Integer positionId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POSITION_ID", insertable = false, updatable = false)
+    private Position position;
+
     @Column(name = "DEPT_ID")
     private Integer deptId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEPT_ID", insertable = false, updatable = false)
+    private Department department;
 
     @Column(name = "EMPLOYEE_NAME")
     private String employeeName;

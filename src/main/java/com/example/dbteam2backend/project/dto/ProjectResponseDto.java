@@ -16,6 +16,7 @@ public class ProjectResponseDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private ProjectStatus status;
+    private String clientName;
 
     public ProjectResponseDto(Project project) {
         this.projectId = project.getProjectId();
@@ -24,5 +25,8 @@ public class ProjectResponseDto {
         this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
         this.status = project.getStatus();
+        if (project.getClient() != null) {
+            this.clientName = project.getClient().getClientName();
+        }
     }
 }

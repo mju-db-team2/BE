@@ -12,11 +12,15 @@ import java.time.LocalDate;
 public class AssignmentDto {
     private Long assignmentId;
     private Long projectId;
-    private Long developerId;
+    private Integer developerId;
     private Long roleId;
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal allocation;
+    private String developerName;
+    private String roleName;
+    private String departmentName;
+    private String positionName;
 
     public AssignmentDto(Assignment assignment) {
         this.assignmentId = assignment.getAssignmentId();
@@ -26,5 +30,17 @@ public class AssignmentDto {
         this.startDate = assignment.getStartDate();
         this.endDate = assignment.getEndDate();
         this.allocation = assignment.getAllocation();
+        if (assignment.getDeveloper() != null) {
+            this.developerName = assignment.getDeveloper().getEmployeeName();
+            if (assignment.getDeveloper().getDepartment() != null) {
+                this.departmentName = assignment.getDeveloper().getDepartment().getDeptName();
+            }
+            if (assignment.getDeveloper().getPosition() != null) {
+                this.positionName = assignment.getDeveloper().getPosition().getPositionName();
+            }
+        }
+        if (assignment.getRole() != null) {
+            this.roleName = assignment.getRole().getRoleName();
+        }
     }
 }

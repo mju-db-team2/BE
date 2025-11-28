@@ -69,4 +69,43 @@ public class EmployeeService {
                 .isPrimary(es.getIsPrimary())
                 .build();
     }
+    private final com.example.dbteam2backend.employee.repository.DepartmentRepository departmentRepository;
+    private final com.example.dbteam2backend.employee.repository.PositionRepository positionRepository;
+    private final com.example.dbteam2backend.employee.repository.StatusCodeRepository statusCodeRepository;
+    private final com.example.dbteam2backend.employee.repository.EmployeeRepository employeeRepository;
+
+    @Transactional
+    public com.example.dbteam2backend.employee.entity.Department createDepartment(com.example.dbteam2backend.employee.dto.DepartmentRequestDto requestDto) {
+        return departmentRepository.save(com.example.dbteam2backend.employee.entity.Department.builder()
+                .deptName(requestDto.getDeptName())
+                .deptCode(requestDto.getDeptCode())
+                .status(requestDto.getStatus())
+                .build());
+    }
+
+    @Transactional
+    public com.example.dbteam2backend.employee.entity.Position createPosition(com.example.dbteam2backend.employee.dto.PositionRequestDto requestDto) {
+        return positionRepository.save(com.example.dbteam2backend.employee.entity.Position.builder()
+                .positionName(requestDto.getPositionName())
+                .build());
+    }
+
+    @Transactional
+    public com.example.dbteam2backend.employee.entity.StatusCode createStatusCode(com.example.dbteam2backend.employee.dto.StatusCodeRequestDto requestDto) {
+        return statusCodeRepository.save(com.example.dbteam2backend.employee.entity.StatusCode.builder()
+                .statusSituation(requestDto.getStatusSituation())
+                .build());
+    }
+
+    @Transactional
+    public Employee createEmployee(com.example.dbteam2backend.employee.dto.EmployeeRequestDto requestDto) {
+        return employeeRepository.save(Employee.builder()
+                .employeeName(requestDto.getEmployeeName())
+                .deptId(requestDto.getDeptId())
+                .positionId(requestDto.getPositionId())
+                .statusId(requestDto.getStatusId())
+                .employeeEmail(requestDto.getEmployeeEmail())
+                .employeePhone(requestDto.getEmployeePhone())
+                .build());
+    }
 }
