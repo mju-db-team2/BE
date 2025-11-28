@@ -11,7 +11,7 @@ Spring Boot(Gradle), JPA, MySQL을 기반으로 하며, 프론트엔드(Vite + R
 - **Java 21 이상**
 - **Gradle** (wrapper 포함)
 - **MySQL 8.x**
-- (선택) IntelliJ IDEA
+- **IntelliJ IDEA**
 
 ---
 
@@ -26,66 +26,77 @@ cd BE
 
 ---
 
-## 환경 설정 (.env 방식)
+## 환경 설정 (IntelliJ Environment Variable 방식)
 
-민감한 정보(DB 비밀번호 등)는 GitHub에 업로드되지 않으며,  
-`.env` 파일에 저장하여 환경변수로 주입합니다.
+`application.yml` 파일은 GitHub에 포함되어 있으며, 환경변수를 통해 데이터베이스 연결 정보를 주입합니다.
 
-### 1) `.env` 파일 작성 (루트 경로에 생성)
+### IntelliJ IDEA에서 환경변수 설정
 
-```bash
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=dbteam2
-DB_USER=root
-DB_PASSWORD=your_password
-```
+1. **Run/Debug Configurations 설정**
+   - 상단 메뉴: `Run` → `Edit Configurations...`
+   - 또는 `Shift + Alt + F10` (Windows/Linux) / `Shift + Option + F10` (Mac)
 
-### 2) `src/main/resources/application.yml` 생성
+2. **Application 설정 선택**
+   - 왼쪽 목록에서 `Application` → `Dbteam2BackendApplication` 선택
+   - 없으면 `+` 버튼으로 새로 생성
 
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+3. **Environment variables 설정**
+   - `Environment variables` 필드 옆의 `...` 버튼 클릭
+   - 다음 환경변수들을 추가:
+     ```
+     DB_URL=jdbc:mysql://localhost:3306/dbteam2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+     DB_USER=root
+     DB_PW=your_password
+     ```
+   - 각 변수는 `KEY=VALUE` 형식으로 입력하고 `+` 버튼으로 추가
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: true
+4. **적용 및 실행**
+   - `OK` 클릭하여 설정 저장
+   - `Run` 버튼으로 애플리케이션 실행
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-```
+### 환경변수 설명
 
-👉 이 파일(application.yml)은 `.gitignore`에 포함되어 GitHub에 올라가지 않습니다.  
-👉 팀원들은 제공된 `application.yml.template` 을 참고해 로컬 설정을 작성합니다.
+| 변수명 | 설명 | 예시 |
+|--------|------|------|
+| `DB_URL` | MySQL 데이터베이스 연결 URL | `jdbc:mysql://localhost:3306/dbteam2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8` |
+| `DB_USER` | 데이터베이스 사용자명 | `root` |
+| `DB_PW` | 데이터베이스 비밀번호 | `your_password` |
+
+👉 **주의**: 실제 비밀번호는 환경변수에 입력하되, GitHub에는 커밋하지 않도록 주의하세요.
 
 ---
 
 ## 서버 실행
 
-### macOS / Linux
+### IntelliJ IDEA에서 실행
+1. 환경변수 설정 후 `Run` 버튼 클릭
+2. 또는 `Shift + F10` (Windows/Linux) / `Ctrl + R` (Mac)
 
+### 터미널에서 실행 (Gradle)
+환경변수를 먼저 설정한 후:
+
+**macOS / Linux:**
 ```bash
-export $(grep -v '^#' .env | xargs)
+export DB_URL="jdbc:mysql://localhost:3306/dbteam2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+export DB_USER="root"
+export DB_PW="your_password"
 ./gradlew bootRun
 ```
 
-### Windows PowerShell
-
+**Windows PowerShell:**
 ```powershell
-Get-Content .env | ForEach-Object {
-  if ($_ -match "^(?<name>[^=]+)=(?<value>.*)$") {
-    [System.Environment]::SetEnvironmentVariable($matches['name'], $matches['value'], "Process")
-  }
-}
+$env:DB_URL="jdbc:mysql://localhost:3306/dbteam2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+$env:DB_USER="root"
+$env:DB_PW="your_password"
 .\gradlew.bat bootRun
+```
+
+**Windows CMD:**
+```cmd
+set DB_URL=jdbc:mysql://localhost:3306/dbteam2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+set DB_USER=root
+set DB_PW=your_password
+gradlew.bat bootRun
 ```
 
 브라우저에서 API를 테스트하려면 `http://localhost:8080` 으로 접속합니다.
@@ -139,8 +150,7 @@ src
 │       └─ Dbteam2BackendApplication
 │
 └─ resources
-├─ application.yml.template   # 팀원용 템플릿
-├─ application.yml            # (gitignore)
+├─ application.yml            # 환경변수 사용 설정 파일
 ├─ static
 └─ templates
 
