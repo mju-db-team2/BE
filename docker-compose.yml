@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: si-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: your_password
+      MYSQL_DATABASE: dbteam2
+      MYSQL_USER: ariy
+      MYSQL_PASSWORD: 8617
+      TZ: Asia/Seoul
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
